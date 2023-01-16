@@ -1,39 +1,39 @@
-interface product {
+export interface product {
   id: number,
   title: string,
   amount: number,
   description: string
 }
 
-export const products: Array<product> = [
+export const productList: Array<product> = [
   {
     id:1,
-    title: 'Trip to Hawaii',
+    title: 'Viagem ao Hawaii',
     amount: 3000,
-    description: 'trip to Hawaii, one-way'
+    description: 'Viagem ao Hawaii só de ida'
   },
   {
     id:2,
-    title: 'Pineapple',
+    title: 'Abacaxi',
     amount: 10,
-    description: `ripe pineapple... And that's it`
+    description: `Um abacaxi maduro`
   },
   {
     id:3,
-    title: 'Coconut',
+    title: 'Coco',
     amount: 30,
-    description: 'A rare coconut'
+    description: 'Uma variedade rara de coco verde'
   },
   {
     id:4,
-    title: 'Surfboard',
+    title: 'Prancha de Surf',
     amount: 400,
-    description: `It's not professional, but good for beginners`
+    description: `Não é profissional mas boa para iniciantes`
   },
   {
     id:5,
-    title: 'Sunscreen',
+    title: 'Filtro Solar',
     amount: 20,
-    description: `Can't have enough sunscreen`
+    description: `Não dá pra ficar sem filtro solar`
   }
 ]
