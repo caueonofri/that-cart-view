@@ -8,11 +8,11 @@ import { AppCartComponent } from './pages/cart/app-cart.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 const routes: Routes = [
-  { path: '/', component: AppComponent },
-  { path: '/produtos', component: AppProductListComponent},
-  { path: '/item/:id', component: ProductDetailComponent},
-  { path: '/carrinho', component: AppCartComponent},
-  { path: '/checkout', component: CheckoutComponent}
+  { path: '', component: AppComponent },
+  { path: 'produtos', component: AppProductListComponent},
+  { path: 'item/:id', component: ProductDetailComponent},
+  { path: 'carrinho', component: AppCartComponent},
+  { path: 'checkout', component: CheckoutComponent}
 
 
 ];
