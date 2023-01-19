@@ -15,6 +15,9 @@ import { AppHeaderComponent } from './shared/header/app-header.component';
 import { AppProductListComponent } from './pages/product-list/app-product-list.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
+import ptBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(ptBr)
 
 @NgModule({
   declarations: [
@@ -36,7 +39,7 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
     FormsModule,
     AppRoutingModule
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'br'}],
+  providers: [{provide: LOCALE_ID, useValue: 'pt'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
