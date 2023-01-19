@@ -1,11 +1,12 @@
-export interface product {
+export interface Product {
   id: number,
   title: string,
   amount: number,
-  description: string
+  description: string,
+  quantity?: number
 }
 
-export const productList: Array<product> = [
+export const productList: Array<Product> = [
   {
     id:1,
     title: 'Viagem ao Hawaii',

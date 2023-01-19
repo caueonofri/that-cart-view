@@ -1,0 +1,25 @@
+// single element selectors, root tags and their pseudo-classes
+// no classes or ids are allowed here
+
+html, body, form { margin: 0; padding: 0; }
+input[type=text] { border: 1px solid #999; }
+a { color: #039; }
+a:hover { color: #03C; }
+i {margin: 1%;}
+
+nav {
+  & ul {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    & li {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+// typography
+h1 {
+  text-transform: uppercase;
+  margin: auto;
+}

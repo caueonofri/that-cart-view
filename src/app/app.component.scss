@@ -1,13 +1,12 @@
-.free-space {
-  flex: 1 1 auto;
-}
-.spread {
-  &-card {
-    background-color: #ffaaaa;
-    width: 300px;
-    margin: 20px auto;
-  }
-}
+@import "/node_modules/@fortawesome/fontawesome-free/css/fontawesome.css";
+@import "/node_modules/@fortawesome/fontawesome-free/css/brands.css";
+@import "/node_modules/@fortawesome/fontawesome-free/css/solid.css";
+@import "./styles/base";
+@import "./styles/layout";
+@import "./styles/module";
+@import "./styles/state";
+@import "./styles/theme";
+
 
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');

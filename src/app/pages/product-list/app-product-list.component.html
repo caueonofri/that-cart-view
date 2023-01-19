@@ -1,0 +1,14 @@
+<h3>Product List</h3>
+<div class="cardlist">
+  <mat-card *ngFor="let item of productList" class="cardlist-item">
+    <mat-card-content>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{ item.title }}</mat-card-title>
+      <mat-card-subtitle>{{ item.description }}</mat-card-subtitle>
+      <p>{{ item.amount | currency:'BRL' }}</p>
+      <mat-card-actions>
+        <button mat-button (click)="addToCart(item.id)">Adicionar ao carrinho</button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</div>
