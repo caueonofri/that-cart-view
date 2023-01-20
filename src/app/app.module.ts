@@ -17,6 +17,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.component';
 registerLocaleData(ptBr)
 
 @NgModule({
@@ -27,7 +28,8 @@ registerLocaleData(ptBr)
     AppCartComponent,
     CheckoutComponent,
     FooterComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    PagenotfoundComponent
   ],
   imports: [
     BrowserModule,
