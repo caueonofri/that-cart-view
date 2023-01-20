@@ -1,4 +1,10 @@
+.free-space {
+  flex: 1 1 auto;
+}
+
 .cardlist {
+  display: flex;
+  flex-flow: row wrap;
   &-item {
     background-color: #ffaaaa;
     width: 300px;
