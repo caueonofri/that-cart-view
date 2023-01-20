@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { productList, Product } from 'src/helpers/products';
 import { CartService } from '../../services/cart.service';
 
@@ -10,7 +11,7 @@ import { CartService } from '../../services/cart.service';
 export class AppProductListComponent {
   productList: Array<Product> = productList;
 
-  constructor(public cartService:CartService){
+  constructor(public cartService:CartService, router: Router){
     this.cartService = cartService;
   }
 
