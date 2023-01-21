@@ -16,5 +16,12 @@
   </button>
 </mat-form-field>
 
+<!-- adicionar campo de desconto mostrando o valor-->
 <h3>Subtotal:</h3>
-<p>{{ subTotal | currency: 'BRL'}}
+<p>{{ subTotalAmt | currency }}
+
+<h3>desconto:</h3>
+<p>{{ discountAmt | currency }}
+
+<h3> Total:</h3>
+<p>{{ totalAmt | currency }}
