@@ -10,9 +10,15 @@ import { CartService } from '../../services/cart.service';
 })
 export class AppProductListComponent {
   productList: Array<Product> = productList;
+  router: Router;
 
   constructor(public cartService:CartService, router: Router){
     this.cartService = cartService;
+    this.router = router;
+  }
+
+  viewProductDetail(itemId:number) {
+    this.router.navigate([`/item/${itemId}`]);
   }
 
   addToCart(productId: number):void {

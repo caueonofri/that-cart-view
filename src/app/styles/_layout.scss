@@ -5,9 +5,42 @@
 .cardlist {
   display: flex;
   flex-flow: row wrap;
+  justify-content: flex-start;
   &-item {
     background-color: #ffaaaa;
-    width: 300px;
-    margin: 20px auto;
+    width: 17%;
+    margin: 0.7%;
+    &-wrapper {
+      width: 100%;
+      height: 70%;
+      overflow: hidden;
+    }
+    &-image {
+      width: 100%;
+      height: auto;
+    }
+    &-button {
+      font-size: 1.633em;
+      font-weight: bold;
+      background: #77dd88;
+      height: 40px;
+      border: #333 1px solid;
+      border-radius: 5px;
+    }
+  }
+}
+
+.header {
+  & .cart-tag {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 590px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #f00;
+    color: #fff;
+    font-size: 0.592em;
   }
 }
