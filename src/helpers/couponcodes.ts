@@ -24,6 +24,11 @@ export const couponList:Array<Coupon> = [
     id: 'quero20porcento',
     amount: 20,
     isPercentage: true
+  },
+  {
+    id: 'eusouobrabo',
+    amount: 100,
+    isPercentage: true
   }
 
 ]
