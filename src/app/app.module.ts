@@ -19,6 +19,9 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import localePT from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.component';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './shared/login/login.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 registerLocaleData(localePT);
 
@@ -31,7 +34,10 @@ registerLocaleData(localePT);
     CheckoutComponent,
     FooterComponent,
     ProductDetailComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    HomeComponent,
+    LoginComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

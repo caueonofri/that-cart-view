@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,4 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./../../app.component.scss']
 })
 export class AppHeaderComponent {
+  get cartCount() { return JSON.parse(localStorage.getItem('cartCount') || '0')}
+
 }

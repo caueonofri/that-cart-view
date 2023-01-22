@@ -1,6 +1,5 @@
 <header class="header">
   <mat-toolbar>
-    <i class="fa fa-user"></i>
     <h1>Surf Store</h1>
     <nav>
       <ul>
@@ -9,6 +8,11 @@
       </ul>
     </nav>
     <span class="free-space"></span>
-    <a routerLink="carrinho"><i class="fa fa-cart-shopping"></i></a>
+    <a routerLink="login">
+      <i class="fa fa-user header-icon"></i>
+    </a>
+    <a routerLink="carrinho">
+      <i [matBadge]="cartCount" matBadgeColor="warn" class="fa fa-cart-shopping header-icon"></i>
+    </a>
   </mat-toolbar>
 </header>
