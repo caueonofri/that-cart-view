@@ -11,29 +11,40 @@ export interface CartItem {
   providedIn: 'root',
 })
 export class CartService {
-  cartContent: Array<CartItem> = [];
+  get cartContent(): Array<CartItem> {
+    return JSON.parse(localStorage.getItem('cartContent') || '');
+  }
+  innerCart: Array<CartItem> = this.cartContent;
   productList: Array<Product> = productList;
 
   addToCart(productId:number):void {
     const item:Product = this.productList.filter(a => a.id == productId)[0];
-    let foundIndex:number = this.cartContent.findIndex(a => a.product.id == productId);
+    let foundIndex:number = this.innerCart.findIndex(a => a.product.id == productId);
     if(foundIndex >= 0) {
-      this.cartContent[foundIndex].quantity++;
+      this.innerCart[foundIndex].quantity++;
     } else {
-      this.cartContent.push({product: item, quantity: 1});
+      this.innerCart.push({product: item, quantity: 1});
     }
-    localStorage.setItem('cartContent', JSON.stringify(this.cartContent));
-    this.cartCount();
+    this.updateCart(this.innerCart);
   }
 
   removeFromCart(productId:number):void {
-    this.cartContent = this.cartContent.filter(a => a.product.id != productId);
+    this.innerCart = this.innerCart.filter(a => a.product.id != productId);
+    this.updateCart(this.innerCart);
+  }
+
+  updateCart(cart: Array<CartItem>): void{
+    localStorage.setItem('cartContent', JSON.stringify(cart));
     this.cartCount();
   }
 
   cartCount():Observable<number>{
     let count:number = 0;
-    this.cartContent.forEach(a => count = count + a.quantity);
+    if(!this.innerCart.length) {
+      localStorage.setItem('cartCount', JSON.stringify(count));
+      return of(0);
+    }
+    this.innerCart.forEach(a => count = count + a.quantity);
     localStorage.setItem('cartCount', JSON.stringify(count));
     return of(count);
   }

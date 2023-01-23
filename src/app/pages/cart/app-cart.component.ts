@@ -1,54 +1,68 @@
-import { Component } from '@angular/core';
-import { CartService } from '../../services/cart.service';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CartItem, CartService } from '../../services/cart.service';
 import { Coupon, couponList } from 'src/helpers/couponcodes';
-import { Product } from 'src/helpers/products';
-
-// to do:
-// - add images to products
 
 @Component({
   selector: 'app-cart',
   templateUrl: './app-cart.component.html',
   styleUrls: ['./../../app.component.scss'],
 })
-export class AppCartComponent {
+export class AppCartComponent implements OnInit, OnChanges{
   cartService: CartService;
-  cartContent: Array<Product> = [];
+  get cartContent(): Array<CartItem> { return JSON.parse(localStorage.getItem('cartContent') || ''); }
+  cartDescription: Array<CartItem> = [];
   couponsList: Array<Coupon> = couponList;
   couponCode: string = '';
-  subTotal: number = 0;
+  discountAmt: number = 0;
+  subTotalAmt: number = 0;
+  totalAmt: number = 0;
 
   constructor(cartService: CartService) {
     this.cartService = cartService;
   }
-
-  removeFromCart(productId:number){
-    if(!productId) return;
-    this.cartService.removeFromCart(productId);
+  ngOnInit(): void {
+    this.cartDescription = this.cartContent;
+    this.totalAmtUpdate();
+  }
+  ngOnChanges(): void {
+    this.totalAmtUpdate();
   }
 
-  applyDiscount() {
-    if (!this.couponCode || this.subTotal < 0) return;
-    let couponChoice = this.couponsList.find((a) => a.id == this.couponCode);
-    if (couponChoice) {
-      if (couponChoice.isPercentage) {
-        this.subTotal = this.subTotal * ((100 - couponChoice.amount) / 100);
-      } else {
-        this.subTotal = this.subTotal - couponChoice.amount;
-      }
+  updateLocalCart(remove?: number) {
+    if(remove != undefined && remove >= -1) {
+      this.cartDescription.splice(remove, 1);
+    }
+    this.totalAmtUpdate();
+    this.cartService.updateCart(this.cartDescription);
+  }
+
+   totalAmtUpdate() {
+    if (!this.cartDescription.length) {
+      this.subTotalAmt = 0;
+      this.totalAmt = 0;
     } else {
-      alert('cupom inválido');
+      this.subTotalAmt = this.cartDescription
+        .map((item) => item.product.amount * item.quantity)
+        .reduce((prev, next) => prev + next);
+      if (!this.couponCode || this.totalAmt < 0) {
+        this.totalAmt = this.subTotalAmt;
+      }
+      this.applyDiscount();
     }
   }
 
-  subTotalUpdate() {
-    if (!this.cartContent.length) {
-      this.subTotal = 0;
+  applyDiscount() {
+    let couponChoice = this.couponsList.find((a) => a.id == this.couponCode);
+    if(!this.couponCode) return;
+    if (couponChoice) {
+      if (couponChoice.isPercentage) {
+        this.totalAmt = this.totalAmt * ((100 - couponChoice.amount) / 100);
+      } else {
+        this.totalAmt = this.totalAmt - couponChoice.amount;
+      }
+      this.discountAmt = this.subTotalAmt - this.totalAmt;
     } else {
-      this.subTotal = this.cartContent
-        .map((item) => item.amount)
-        .reduce((prev, next) => prev + next);
-      this.applyDiscount();
+      alert('cupom inválido');
     }
   }
 }

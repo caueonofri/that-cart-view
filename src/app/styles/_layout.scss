@@ -50,6 +50,9 @@
     }
     &-content {
       display: flex;
+      & > div {
+        flex: 1 1 auto;
+      }
     }
     &-button {
       font-size: 1.633em;

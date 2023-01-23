@@ -1,27 +1,48 @@
-<h3> this is the cart</h3>
-<mat-card *ngFor="let item of cartContent">
-  <mat-card-content class="spread-card">
-    <mat-icon (click)="removeFromCart(item.id)">close</mat-icon>
-    <mat-card-title>{{ item.title }}</mat-card-title>
-    <mat-card-subtitle>{{ item.description }}</mat-card-subtitle>
-    <p>{{ item.amount }}
-  </mat-card-content>
-</mat-card>
+<div class="cartcontent row">
+  <div class="cart-cardlist col">
+    <mat-card class="cart-cardlist-item" *ngFor="let item of cartDescription, let index = index">
+      <mat-card-content>
+        <div class="cart-cardlist-item-content row">
+          <div class="cart-cardlist-item-wrapper">
+            <img class="cart-cardlist-item-image" mat-card-image [src]="item.product.image" />
+          </div>
+          <div>
+            <mat-card-title>{{ item.product.title }}</mat-card-title>
+            <mat-card-subtitle>{{ item.product.description }}</mat-card-subtitle>
+            <p>{{ item.product.amount | currency }}</p>
+            <p>Quantidade: <input type="text" [(ngModel)]="cartDescription[index].quantity" (blur)="this.updateLocalCart()">
+          </div>
+          <div>
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="updateLocalCart(index)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <mat-card-actions>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="cart-manager" *ngIf="this.cartDescription.length">
+    <mat-form-field>
+      <mat-label>Cupom de desconto</mat-label>
+      <input matInput type="text" (change)="applyDiscount()" [(ngModel)]="couponCode">
+      <button *ngIf="couponCode" matSuffix mat-icon-button aria-label="Clear" (click)="couponCode=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
 
-<mat-form-field>
-  <mat-label>Cupom de desconto</mat-label>
-  <input matInput type="text" (change)="applyDiscount()" [(ngModel)]="couponCode">
-  <button *ngIf="couponCode" matSuffix mat-icon-button aria-label="Clear" (click)="couponCode=''">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
+    <!-- adicionar campo de desconto mostrando o valor-->
+    <h2>Subtotal:</h2>
+    <p>{{ subTotalAmt | currency }}</p>
 
-<!-- adicionar campo de desconto mostrando o valor-->
-<h3>Subtotal:</h3>
-<p>{{ subTotalAmt | currency }}
+    <h2>Desconto:</h2>
+    <p>{{ discountAmt | currency }}</p>
 
-<h3>desconto:</h3>
-<p>{{ discountAmt | currency }}
-
-<h3> Total:</h3>
-<p>{{ totalAmt | currency }}
+    <h2> Total:</h2>
+    <p>{{ totalAmt | currency }}</p>
+  </div>
+  <div *ngIf="!this.cartDescription.length">
+    <h2>Seu Carrinho está vazio</h2>
+  </div>
+</div>
