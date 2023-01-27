@@ -22,6 +22,7 @@ import { PagenotfoundComponent } from './shared/pagenotfound/pagenotfound.compon
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './shared/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { HttpClientModule } from '@angular/common/http';
 
 registerLocaleData(localePT);
 
@@ -48,7 +49,8 @@ registerLocaleData(localePT);
     MatInputModule,
     MatBadgeModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: 'pt'},
