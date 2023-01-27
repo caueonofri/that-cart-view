@@ -1,6 +1,6 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CartItem, CartService } from '../../services/cart.service';
-import { Coupon, couponList } from 'src/helpers/couponcodes';
+import { Component, OnChanges, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CartAmounts, CartItem, CartService } from '../../core/services/cart/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -8,61 +8,33 @@ import { Coupon, couponList } from 'src/helpers/couponcodes';
   styleUrls: ['./../../app.component.scss'],
 })
 export class AppCartComponent implements OnInit, OnChanges{
-  cartService: CartService;
   get cartContent(): Array<CartItem> { return JSON.parse(localStorage.getItem('cartContent') || ''); }
+  get cartAmounts(): CartAmounts { return JSON.parse(localStorage.getItem('cartAmounts') || '')}
   cartDescription: Array<CartItem> = [];
-  couponsList: Array<Coupon> = couponList;
   couponCode: string = '';
-  discountAmt: number = 0;
-  subTotalAmt: number = 0;
-  totalAmt: number = 0;
 
-  constructor(cartService: CartService) {
-    this.cartService = cartService;
-  }
+  constructor(
+    private cartService: CartService,
+    private _router: Router
+    ) {}
   ngOnInit(): void {
     this.cartDescription = this.cartContent;
-    this.totalAmtUpdate();
+    this.cartService.totalAmtUpdate();
   }
   ngOnChanges(): void {
-    this.totalAmtUpdate();
+    this.cartService.totalAmtUpdate(this.couponCode);
   }
 
   updateLocalCart(remove?: number) {
     if(remove != undefined && remove >= -1) {
       this.cartDescription.splice(remove, 1);
     }
-    this.totalAmtUpdate();
+    this.cartService.totalAmtUpdate(this.couponCode);
     this.cartService.updateCart(this.cartDescription);
   }
 
-   totalAmtUpdate() {
-    if (!this.cartDescription.length) {
-      this.subTotalAmt = 0;
-      this.totalAmt = 0;
-    } else {
-      this.subTotalAmt = this.cartDescription
-        .map((item) => item.product.amount * item.quantity)
-        .reduce((prev, next) => prev + next);
-      if (!this.couponCode || this.totalAmt < 0) {
-        this.totalAmt = this.subTotalAmt;
-      }
-      this.applyDiscount();
-    }
+  confirmCheckout() {
+    this._router.navigate(['/checkout']);
   }
 
-  applyDiscount() {
-    let couponChoice = this.couponsList.find((a) => a.id == this.couponCode);
-    if(!this.couponCode) return;
-    if (couponChoice) {
-      if (couponChoice.isPercentage) {
-        this.totalAmt = this.totalAmt * ((100 - couponChoice.amount) / 100);
-      } else {
-        this.totalAmt = this.totalAmt - couponChoice.amount;
-      }
-      this.discountAmt = this.subTotalAmt - this.totalAmt;
-    } else {
-      alert('cupom inválido');
-    }
-  }
 }
