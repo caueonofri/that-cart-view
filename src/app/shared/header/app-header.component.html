@@ -3,8 +3,11 @@
     <h1>Surf Store</h1>
     <nav>
       <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/produtos">Produtos</a></li>
+        <a routerLink="/"><li mat-menu-item >Home</li></a>
+        <li mat-menu-item [matMenuTriggerFor]="menu">Categorias</li>
+        <mat-menu #menu="matMenu">
+          <button *ngFor="let category of categories" mat-menu-item [routerLink]="['/produtos', category]">{{ category }}</button>
+        </mat-menu>
       </ul>
     </nav>
     <span class="free-space"></span>

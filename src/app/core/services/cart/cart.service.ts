@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { Coupon, couponList } from 'src/helpers/couponcodes';
-import { Product, productList } from 'src/helpers/products';
+import { Product } from 'src/helpers/products';
+import { LocalStorageService } from '../storage/localstorage.service';
 
 export interface CartItem {
   product: Product,
-  quantity: number
+  quantity: number,
+}
+export interface Cart {
+  items: Array<CartItem>,
+  couponCode?: string
 }
 export interface CartAmounts {
   total: number,
@@ -17,84 +21,105 @@ export interface CartAmounts {
   providedIn: 'root',
 })
 export class CartService {
-  get cartContent(): Array<CartItem> {
-    return JSON.parse(localStorage.getItem('cartContent') || '');
+  get cart(): Cart {
+    return this.LocalStorageService.fetch('cartContent');
   }
   get cartAmounts(): CartAmounts {
-    return JSON.parse(localStorage.getItem('cartAmounts') || '');
+    return this.LocalStorageService.fetch('cartAmounts');
   }
-  _cartContent: Array<CartItem> = this.cartContent;
+
+  constructor(private LocalStorageService: LocalStorageService) {
+    this._cartContent.items = this.cart.items || [];
+  }
+  _cartContent: Cart = this.cart;
   _cartAmounts: CartAmounts = this.cartAmounts;
-  productList: Array<Product> = productList;
+  productList: Array<Product> = [];
   couponsList: Array<Coupon> = couponList;
 
-  addToCart(productId:number):void {
-    const item:Product = this.productList.filter(a => a.id == productId)[0];
-    let foundIndex:number = this._cartContent.findIndex(a => a.product.id == productId);
-    if(foundIndex >= 0) {
-      this._cartContent[foundIndex].quantity++;
+  addToCart(product: Product): void {
+    let foundIndex: number = -1;
+    if (this.cart.items.length) {
+      foundIndex = this.cart.items.findIndex(
+        (a) => a.product.id == product.id
+      );
+      if (foundIndex >= 0) {
+        this._cartContent.items[foundIndex].quantity++;
+      }
     } else {
-      this._cartContent.push({product: item, quantity: 1});
+      this._cartContent.items.push({ product: product, quantity: 1 });
+      this.updateCart(this._cartContent);
     }
+  }
+
+  removeFromCart(productId: number): void {
+    this._cartContent.items = this._cartContent.items.filter(
+      (a) => a.product.id != productId
+    );
     this.updateCart(this._cartContent);
   }
 
-  removeFromCart(productId:number):void {
-    this._cartContent = this._cartContent.filter(a => a.product.id != productId);
-    this.updateCart(this._cartContent);
-  }
-
-  updateCart(cart: Array<CartItem>): void{
-    localStorage.setItem('cartContent', JSON.stringify(cart));
+  updateCart(cart: Cart): void {
+    this.LocalStorageService.add('cartContent', JSON.stringify(cart));
+    this.totalAmtUpdate();
     this.cartCount();
   }
 
-  cartCount():Observable<number>{
-    let count:number = 0;
-    if(!this._cartContent.length) {
-      localStorage.setItem('cartCount', JSON.stringify(count));
-      return of(0);
+  cartCount(): void {
+    let count: number = 0;
+    if (!this._cartContent.items.length) {
+      this.LocalStorageService.add('cartCount', JSON.stringify(count));
+    } else {
+      this._cartContent.items.forEach((a) => (count = count + a.quantity));
+      this.LocalStorageService.add('cartCount', JSON.stringify(count));
     }
-    this._cartContent.forEach(a => count = count + a.quantity);
-    localStorage.setItem('cartCount', JSON.stringify(count));
-    return of(count);
   }
 
-  getItems():Observable<Array<CartItem>> {
-    return of(this.cartContent);
-  }
-
-   totalAmtUpdate(couponCode?: string) {
-    if (!this.cartContent.length) {
+  totalAmtUpdate(couponCode?: string) {
+    this.resetCartAmounts();
+    if (!this.cart.items.length) {
       this._cartAmounts.subTotal = 0;
       this._cartAmounts.total = 0;
     } else {
-      this._cartAmounts.subTotal = this.cartContent
+      this._cartAmounts.subTotal = this.cart.items
         .map((item) => item.product.price * item.quantity)
         .reduce((prev, next) => prev + next);
       if (!couponCode || this._cartAmounts.total < 0) {
         this._cartAmounts.total = this._cartAmounts.subTotal;
       }
-      if(couponCode) {
+      if (couponCode) {
         this.applyDiscount(couponCode);
       }
     }
-    localStorage.setItem('cartAmounts', JSON.stringify(this._cartAmounts));
+    this.LocalStorageService.add(
+      'cartAmounts',
+      JSON.stringify(this._cartAmounts)
+    );
   }
 
   applyDiscount(couponCode: string) {
+    console.log('apply discount');
     let couponChoice = this.couponsList.find((a) => a.id == couponCode);
-    if(!couponCode) return;
+    if (!couponCode) return;
     if (couponChoice) {
       if (couponChoice.isPercentage) {
-        this._cartAmounts.total = this._cartAmounts.total * ((100 - couponChoice.amount) / 100);
+        this._cartAmounts.total =
+          this._cartAmounts.total * ((100 - couponChoice.amount) / 100);
       } else {
         this._cartAmounts.total = this._cartAmounts.total - couponChoice.amount;
       }
-      this._cartAmounts.discount = this._cartAmounts.subTotal - this._cartAmounts.total;
+      this._cartAmounts.discount =
+        this._cartAmounts.subTotal - this._cartAmounts.total;
     } else {
       alert('cupom inválido');
     }
   }
 
+  resetCartAmounts() {
+    this._cartAmounts = {
+      total: 0,
+      subTotal: 0,
+      discount: 0,
+    };
+    this.LocalStorageService.remove('cartAmounts');
+  }
 }

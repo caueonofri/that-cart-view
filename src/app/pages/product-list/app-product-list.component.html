@@ -3,14 +3,14 @@
     <mat-card-content>
       <div class="cardlist-item-content" (click)="viewProductDetail(item.id)">
         <div class="cardlist-item-wrapper">
-          <img class="cardlist-item-image" mat-card-image [src]="item.image" />
+          <img class="cardlist-item-image" mat-card-image [src]="item.images[0]" />
         </div>
         <mat-card-title>{{ item.title }}</mat-card-title>
-        <mat-card-subtitle>{{ item.description }}</mat-card-subtitle>
-        <p>{{ item.amount | currency }}</p>
+        <mat-card-subtitle class="cardlist-item-description">{{ item.description }}</mat-card-subtitle>
+        <p>{{ item.price | currency }}</p>
       </div>
       <mat-card-actions>
-          <button class="cardlist-item-button" mat-button (click)="addToCart(item.id)">Adicionar ao carrinho</button>
+          <button class="cardlist-item-button" mat-button (click)="addToCart(item)">Adicionar ao carrinho</button>
       </mat-card-actions>
     </mat-card-content>
   </mat-card>

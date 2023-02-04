@@ -7,6 +7,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoginService {
-
+  isLoggedIn: boolean = true;
   constructor() { }
+
+  isAuthenticated() {
+    return this.isLoggedIn;
+  }
+
+
+
 }

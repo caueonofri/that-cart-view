@@ -1,6 +1,6 @@
 <div class="cartcontent row">
   <div class="cart-cardlist col">
-    <mat-card class="cart-cardlist-item" *ngFor="let item of cartDescription, let index = index">
+    <mat-card class="cart-cardlist-item" *ngFor="let item of _cartContent.items, let index = index">
       <mat-card-content>
         <div class="cart-cardlist-item-content row">
           <div class="cart-cardlist-item-wrapper">
@@ -10,10 +10,10 @@
             <mat-card-title>{{ item.product.title }}</mat-card-title>
             <mat-card-subtitle>{{ item.product.description }}</mat-card-subtitle>
             <p>{{ item.product.price | currency }}</p>
-            <p>Quantidade: <input type="text" [(ngModel)]="cartDescription[index].quantity" (blur)="this.updateLocalCart()">
+            <p>Quantidade: <input type="text" [(ngModel)]="_cartContent.items[index].quantity" (blur)="updateLocalCart()">
           </div>
           <div>
-            <button matSuffix mat-icon-button aria-label="Clear" (click)="updateLocalCart(index)">
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="removeFromCart(item.product.id)">
               <mat-icon>close</mat-icon>
             </button>
           </div>
@@ -23,7 +23,7 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <div class="cart-manager" *ngIf="this.cartDescription.length">
+  <div class="cart-manager" *ngIf="this._cartContent.items.length">
     <mat-form-field>
       <mat-label>Cupom de desconto</mat-label>
       <input matInput type="text" (change)="updateLocalCart()" [(ngModel)]="couponCode">
@@ -36,7 +36,7 @@
     <p>{{ cartAmounts.subTotal | currency }}</p>
 
     <h2>Desconto:</h2>
-    <p>{{ cartAmounts.discount | currency }}</p>
+    <p>{{ cartAmounts.discount || 0 | currency }}</p>
 
     <h2> Total:</h2>
     <p>{{ cartAmounts.total | currency }}</p>
@@ -50,7 +50,7 @@
 
     <button class="button" (click)="confirmCheckout()" disabled="cartAmounts.total == 0">Finalizar compra</button>
   </div>
-  <div *ngIf="!this.cartDescription.length">
+  <div *ngIf="!this._cartContent.items.length">
     <h2>Seu Carrinho está vazio</h2>
   </div>
 </div>

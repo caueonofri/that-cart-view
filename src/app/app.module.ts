@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule} from '@angular/material/input';
 import { MatBadgeModule} from '@angular/material/badge';
+import { MatMenuModule} from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 import { AppCartComponent } from './pages/cart/app-cart.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +24,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './shared/login/login.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UserDetailsComponent } from './pages/user-details/user-details.component';
 
 registerLocaleData(localePT);
 
@@ -38,7 +40,8 @@ registerLocaleData(localePT);
     PagenotfoundComponent,
     HomeComponent,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,7 @@ registerLocaleData(localePT);
     MatIconModule,
     MatInputModule,
     MatBadgeModule,
+    MatMenuModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule

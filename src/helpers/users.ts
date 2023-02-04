@@ -1,33 +1,69 @@
 export interface User {
   name: string,
-  id: string,
+  id: number,
   password: string,
   isAdmin: boolean
 }
 
-export const Users:Array<User> = [
-  {
-    id: 'joaosilva',
-    name: 'João da Silva',
-    password: '1234',
-    isAdmin: true
-  },
-  {
-    id: 'mariazinha',
-    name: 'Maria do Carmo',
-    password: '1234',
-    isAdmin: false
-  },
-  {
-    id: 'carlao',
-    name: 'Carlos Nascimento',
-    password: '1234',
-    isAdmin: false
-  },
-  {
-    id: 'patosocio',
-    name: 'Donald o Pato',
-    password: '1234',
-    isAdmin: true
-  },
-]
+
+export interface ServerUser {
+id: number,
+firstName: string,
+lastName: string,
+maidenName:string,
+age: number,
+gender: string
+email: string,
+phone: string,
+username: string,
+password: string,
+birthDate:string,
+image: string,
+bloodGroup: string,
+height: number,
+weight: number,
+eyeColor: string,
+hair: {
+color: string,
+type: string,
+},
+domain: string,
+ip: string,
+address: {
+address: string,
+city: string,
+coordinates: {
+lat: number,
+lng: number
+},
+postalCode: string,
+state: string
+},
+macAddress: string,
+university: string,
+bank: {
+cardExpire: string,
+cardNumber: string,
+cardType: string,
+currency: string,
+iban: string
+},
+company: {
+address: {
+address: string,
+city: string,
+coordinates: {
+lat: number,
+lng: number
+},
+postalCode: string,
+state: string
+},
+department: string,
+name: string,
+title: string
+},
+ein: string,
+ssn: string,
+userAgent: string
+}

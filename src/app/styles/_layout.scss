@@ -4,19 +4,32 @@
 
 .cardlist {
   justify-content: flex-start;
+
   &-item {
     background-color: #ffaaaa;
     width: 17%;
     margin: 0.7%;
+
+    &-description {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     &-wrapper {
       width: 100%;
-      height: 70%;
+      height: 300px;
       overflow: hidden;
+      background-color: #fff;
     }
+
     &-image {
-      width: 100%;
-      height: auto;
+      width: auto;
+      height: 100%;
+      margin: 0 auto;
+      display: block;
     }
+
     &-button {
       font-size: 1.633em;
       font-weight: bold;
@@ -27,33 +40,41 @@
     }
   }
 }
+
 .cartcontent {
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
+
 .cart-cardlist {
   justify-content: flex-start;
   margin: 2% 0.4%;
+
   &-item {
     background-color: #faa;
     width: 100%;
     margin: 0.7% 0;
+
     &-wrapper {
       width: 8%;
       height: 70%;
       margin: 0.8%;
       overflow: hidden;
     }
+
     &-image {
       width: 100%;
       height: auto;
     }
+
     &-content {
       display: flex;
-      & > div {
+
+      &>div {
         flex: 1 1 auto;
       }
     }
+
     &-button {
       font-size: 1.633em;
       font-weight: bold;
@@ -73,6 +94,7 @@
   display: flex;
   flex-flow: row wrap;
 }
+
 .col {
   display: flex;
   flex-flow: column wrap;
@@ -91,6 +113,7 @@
     color: #fff;
     font-size: 0.592em;
   }
+
   &-icon {
     margin: 7px;
   }
@@ -103,6 +126,7 @@
   display: block;
   border: 1px #333 dotted;
 }
+
 .footer {
   position: relative;
   margin-bottom: 0;
